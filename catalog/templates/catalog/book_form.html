@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% comment %} The CSRF middleware and template tag provides easy-to-use protection against Cross Site Request Forgeries. {% endcomment %}
+    {% comment %} In any template that uses a POST form, use the csrf_token tag inside the <form> element if the form is for an internal URL {% endcomment %}
+    {% comment %} This should not be done for POST forms that target external URLs, since that would cause the CSRF token to be leaked, leading to a vulnerability. {% endcomment %}
+
+    {% comment %} In the corresponding view functions, ensure that RequestContext is used to render the response so that {% csrf_token %} will work properly. {% endcomment %}
+    {% comment %} If you’re using the render() function, generic views, or contrib apps, you are covered already since these all use RequestContext. {% endcomment %}
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit" />
+    
+</form>
+{% endblock %}

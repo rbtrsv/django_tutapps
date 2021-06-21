@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>All Borrowed Books</h1>
+
+    {% if bookinstance_list %}
+    <ul>
+        {% comment %} bookinstance_list_borrowed_all.html is mentioned in LoanedBooksAllListView {% endcomment %}
+        {% for bookinst in bookinstance_list %} 
+            <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                {% comment %} book-detail is the name of the url with URL pattern: 'book/<int:pk>' and view function: views.BookDetailView.as_view() {% endcomment %}
+                <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a> ({{ bookinst.due_back }}) {% if user.is_staff %}- {{ bookinst.borrower }}{% endif %} {% if perms.catalog.can_mark_returned %}- <a href="{% url 'renew-book-librarian' bookinst.id %}">Renew</a>  {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+        <p>There are no books borrowed.</p>
+    {% endif %}       
+{% endblock %}
