@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     # Add new applications
     'catalog.apps.CatalogConfig', # This object was created for us in /catalog/apps.py.
-
+    'polls.apps.PollsConfig',
 ]
 
 MIDDLEWARE = [

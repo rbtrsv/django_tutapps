@@ -27,6 +27,7 @@ urlpatterns = [
 
 urlpatterns += [
     path('catalog/', include('catalog.urls')),
+    path('polls/', include('polls.urls'))
 ]
 
 
@@ -41,7 +42,7 @@ urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #Add URL maps to redirect the base URL to our application
 from django.views.generic import RedirectView
 urlpatterns += [
-    # Change this when you have more applications!!!
+    # !!! Change this when you have more applications !!!
     path('', RedirectView.as_view(url='/catalog/', permanent=True)),
 ]
 

@@ -1,1 +1,5 @@
-Models > (Admin) > Views > (Forms) > Urls.
+Models > (Admin) > Views > (Forms) > Urls > (Tests).
+catalog - Mozilla Django Tutorial.
+    django_tutapps > templates > registration.
+polls - Getting started with Django - Django Project.
+    django_tutapps > templates > admin.

@@ -1,0 +1,28 @@
+{% comment %} We set the form’s action to {% url 'polls:vote' question.id %}, and we set method="post". {% endcomment %}
+{% comment %} Using method="post" (as opposed to method="get") is very important, because the act of submitting this form will alter data server-side. {% endcomment %}
+{% comment %} Whenever you create a form that alters data server-side, use method="post". {% endcomment %}
+
+{% comment %} Remember that we created a URLconf for the polls application (polls/urls.py) that includes this line: {% endcomment %}
+{% comment %} path('<int:question_id>/vote/', views.vote, name='vote') {% endcomment %}
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% comment %} Since we’re creating a POST form (which can have the effect of modifying data), we need to worry about Cross Site Request Forgeries. {% endcomment %}
+{% comment %} Django comes with a helpful system for protecting against it. In short, all POST forms that are targeted at internal URLs should use the {% csrf_token %} template tag. {% endcomment %}
+{% csrf_token %}
+<fieldset>
+    <legend><h1>{{ question.question_text }}</h1></legend>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% comment %} The template displays a radio button for each question choice. {% endcomment %}
+    {% comment %} choice_set is a RelatedManager which can create querysets of Choice objects which relate to the Question instance {% endcomment %}
+    {% for choice in question.choice_set.all %}
+        {% comment %} The value of each radio button is the associated question choice’s ID. {% endcomment %}
+        {% comment %} The name of each radio button is "choice" {% endcomment %}
+        {% comment %} That means, when somebody selects one of the radio buttons and submits the form, it’ll send the POST data choice=# where # is the ID of the selected choice. {% endcomment %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        {% comment %} forloop.counter indicates how many times the for tag has gone through its loop {% endcomment %}
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+</fieldset>
+<input type="submit" value="Vote">
+</form>
+
+{% comment %} We created an implementation of the vote() function in polls/views.py {% endcomment %}
